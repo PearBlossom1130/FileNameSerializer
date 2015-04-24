@@ -1,3 +1,3 @@
 # FileNameSerializer
-A tool for change file names to be serialized
+A command line tool for serializing file names
  
