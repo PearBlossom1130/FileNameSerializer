@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Resources;
 using System;
+using FileNameSerializer.Common;
 
 namespace FileNameSerializer
 {
@@ -11,16 +12,10 @@ namespace FileNameSerializer
         static void Main(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += GlobalHandler;
+            InitCommandLine(args);
 
             var rm = new ResourceManager("FileNameSerializer.Resource", Assembly.GetExecutingAssembly());
             Logger.GetLogger(LOGGER_NAME).Info(rm.GetString("Start"));
-            if (args.Length == 0)
-            {
-                EnvironmentWorker.ShowUsage();
-                Logger.GetLogger(LOGGER_NAME).Info(rm.GetString("InputArgIsZero"));
-                return;
-            }
-
             EnvironmentWorker.GetFileExtension("FileExtension");
             EnvironmentWorker.GetFileNameTemplate("FileNameTemplate");
             var subDirectories = EnvironmentWorker.GetAllSubDirectories(args[0]);
@@ -35,9 +30,20 @@ namespace FileNameSerializer
             Logger.GetLogger(LOGGER_NAME).Info(rm.GetString("End"));
         }
 
-        public static void GlobalHandler(object sender, UnhandledExceptionEventArgs args)
+        private static void GlobalHandler(object sender, UnhandledExceptionEventArgs args)
         {
             Console.WriteLine("Unhandled Exception hanppens.");
+        }
+
+        private static void InitCommandLine(string[] args)
+        {
+            var options = new CommandLineOption();
+            CommandLine.Parser.Default.ParseArgumentsStrict(args, options, OnFail);
+        }
+
+        private static void OnFail()
+        {
+            Environment.Exit(-1);
         }
     }
 }
