@@ -17,6 +17,7 @@ namespace FileNameSerializer
             }
 
             return Loggers[name];
+
         }
     }
 }
