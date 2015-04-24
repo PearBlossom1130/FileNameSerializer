@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileNameSerializer", "FileNameSerializer\FileNameSerializer.csproj", "{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileNameSerializerTest", "FileNameSerializerTest\FileNameSerializerTest.csproj", "{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{09A328BD-698F-498A-9394-06FB48D1AB89}"
+	ProjectSection(SolutionItems) = preProject
+		FileNameSerializer.vsmdi = FileNameSerializer.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = FileNameSerializer.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Debug|x86.ActiveCfg = Debug|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Debug|x86.Build.0 = Debug|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Release|Any CPU.ActiveCfg = Release|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Release|x86.ActiveCfg = Release|x86
+		{D6A5D276-03DC-4465-B4B7-B58DC1D1975C}.Release|x86.Build.0 = Release|x86
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6D86F9E8-6738-40CD-98AB-FFF0BD238B8A}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+	EndGlobalSection
+EndGlobal
