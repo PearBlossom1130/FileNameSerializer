@@ -18,9 +18,9 @@ namespace FileNameSerializerTest
         private const string SIBLING_SUB_DIR2 = "\\ASiblingDir2";
 
         private readonly static string DirWithASubDirMp4Files = Directory.GetCurrentDirectory() + "\\dirWithASubDirMp4Files";
-        private readonly static string DirWithTwoSubDirsMp4FilesRoot = Directory.GetCurrentDirectory() + "\\dirWithTwoSubDirsMp4FilesRoot";
-        private readonly static string DirWithTwoSubDirsMp4FilesSub1 = DirWithTwoSubDirsMp4FilesRoot + "\\dirWithTwoSubDirsMp4FilesSub1";
-        private readonly static string DirWithTwoSubDirsMp4FilesSub2 = DirWithTwoSubDirsMp4FilesRoot + "\\dirWithTwoSubDirsMp4FilesSub2";
+        private readonly static string DirWithTwoSubDirsMp4Files = Directory.GetCurrentDirectory() + "\\dirWithTwoSubDirsMp4Files";
+        private readonly static string DirWithTwoSubDirsMp4FilesSub1 = DirWithTwoSubDirsMp4Files + "\\dirWithTwoSubDirsMp4FilesSub1";
+        private readonly static string DirWithTwoSubDirsMp4FilesSub2 = DirWithTwoSubDirsMp4Files + "\\dirWithTwoSubDirsMp4FilesSub2";
 
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
@@ -32,7 +32,7 @@ namespace FileNameSerializerTest
                 ModifyCreationTime();
 
                 Directory.CreateDirectory(DirWithASubDirMp4Files);
-                Directory.CreateDirectory(DirWithTwoSubDirsMp4FilesRoot);
+                Directory.CreateDirectory(DirWithTwoSubDirsMp4Files);
                 Directory.CreateDirectory(DirWithTwoSubDirsMp4FilesSub1);
                 Directory.CreateDirectory(DirWithTwoSubDirsMp4FilesSub2);
 
@@ -100,7 +100,7 @@ namespace FileNameSerializerTest
         public static void AssemblyCleanup()
         {
             Directory.Delete(DirWithASubDirMp4Files, true);
-            Directory.Delete(DirWithTwoSubDirsMp4FilesRoot, true);
+            Directory.Delete(DirWithTwoSubDirsMp4Files, true);
         }
 
         [ClassInitialize]
@@ -184,7 +184,7 @@ namespace FileNameSerializerTest
         [TestMethod]
         public void ShouldReturnTwoDirectoryContainingMp4FilesFromSubDirs()
         {
-            EnvironmentWorker.GetAllSubDirectories(DirWithTwoSubDirsMp4FilesRoot);
+            EnvironmentWorker.GetAllSubDirectories(DirWithTwoSubDirsMp4Files);
             EnvironmentWorker.EnqueueDirectories();
             foreach (var d in EnvironmentWorker.TargetDirectories) Debug.WriteLine(d);
 
