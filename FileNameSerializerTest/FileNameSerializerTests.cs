@@ -11,13 +11,12 @@ namespace FileNameSerializerTest
     public class FileNameSerializerTests
     {
         private readonly static string DirWithASubDirMp4Files = Directory.GetCurrentDirectory() + "\\DirWithASubDirMp4Files";
-        private readonly static string DirWithTwoSubDirsMp4Files = Directory.GetCurrentDirectory() + "\\DirWithTwoSubDirsMp4FilesRoot";
-        private readonly static string DirWithTwoSubDirsMp4FilesSub1 = DirWithTwoSubDirsMp4Files + "\\DirWithTwoSubDirsMp4FilesSub1";
-        private readonly static string DirWithTwoSubDirsMp4FilesSub2 = DirWithTwoSubDirsMp4Files + "\\DirWithTwoSubDirsMp4FilesSub2";
+        private readonly static string DirWithTwoSubDirsMp4Files = Directory.GetCurrentDirectory() + "\\DirWithTwoSubDirsMp4Files";
 
         private const string FIRST_FILE_TIME = "4/23/2015 6:26:11.209 PM";
         private const string SECOND_FILE_TIME = "4/23/2015 6:27:45.837 PM";
         private const string THIRD_FILE_TIME = "4/23/2015 6:28:32.526 PM";
+        private readonly string[] _serializedFileName = new [] { "video-1.mp4", "video-2.mp4", "video-3.mp4" };
 
         private readonly DateTime[] _fileDateTimeStamps = new [] {
                     DateTime.Parse(FIRST_FILE_TIME),
@@ -43,13 +42,7 @@ namespace FileNameSerializerTest
             var fns = new FileNameSerializer();
             fns.ChangeFileName();
 
-            var convertedFiles = Directory.GetFiles(directory);
-            var loop = 0;
-
-            foreach (var fileInfo in convertedFiles.OrderBy(f => (new FileInfo(f)).CreationTimeUtc).Select(f => new FileInfo(f)))
-            {
-                Assert.AreEqual(fileInfo.CreationTimeUtc, _fileDateTimeStamps[loop++]);
-            }
+            AssertIt(directory);
         }
 
         [TestMethod]
@@ -58,7 +51,30 @@ namespace FileNameSerializerTest
             EnvironmentWorker.GetAllSubDirectories(DirWithTwoSubDirsMp4Files);
             EnvironmentWorker.EnqueueDirectories();
 
-            Assert.AreEqual(2, EnvironmentWorker.TargetDirectories.Count);
+            var directories = new string[2];
+            var i = 0;
+            foreach(var td in EnvironmentWorker.TargetDirectories)
+            {
+                directories[i++] = td;
+            }
+
+            new FileNameSerializer().ChangeFileName();
+
+            foreach (var directory in directories)
+            {
+                AssertIt(directory);
+            }
+        }
+
+        private void AssertIt(string directory)
+        {
+            var convertedFiles = Directory.GetFiles(directory);
+            var loop = 0;
+            foreach (var fileInfo in convertedFiles.OrderBy(f => (new FileInfo(f)).CreationTimeUtc).Select(f => new FileInfo(f)))
+            {
+                Assert.AreEqual(fileInfo.CreationTimeUtc, _fileDateTimeStamps[loop]);
+                Assert.IsTrue(fileInfo.FullName.Contains(_serializedFileName[loop++]));
+            }
         }
     }
 }
