@@ -24,7 +24,8 @@ namespace FileNameSerializer
 
                     foreach (var f in targetFiles)
                     {
-                        var creatTime = File.GetCreationTimeUtc(f);
+                        //var creatTime = File.GetCreationTimeUtc(f);
+                        var creatTime = File.GetLastWriteTimeUtc(f);
                         dirTime.Add(f, creatTime);
                     }
 
