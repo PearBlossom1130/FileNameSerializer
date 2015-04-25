@@ -10,15 +10,16 @@ namespace FileNameSerializerTest
     [TestClass]
     public class EnvironmentWorkerTests
     {
-        private readonly static string DirWithNoSubDir = Directory.GetCurrentDirectory() + "\\dirWithNoSubDir";
-        private readonly static string DirWithASubDirRoot = Directory.GetCurrentDirectory() + "\\dirWithASubDir";
+        private readonly static string CurrentDirectory = Directory.GetCurrentDirectory();
+        private readonly static string DirWithNoSubDir = CurrentDirectory + "\\dirWithNoSubDir";
+        private readonly static string DirWithASubDirRoot = CurrentDirectory + "\\dirWithASubDir";
         private const string SUB_DIR = "\\ASubDir";
-        private readonly static string DirWithTwoSiblingSubDirRoot = Directory.GetCurrentDirectory() + "\\dirWithTwoSiblingSubDirRoot";
+        private readonly static string DirWithTwoSiblingSubDirRoot = CurrentDirectory + "\\dirWithTwoSiblingSubDirRoot";
         private const string SIBLING_SUB_DIR1 = "\\ASiblingDir1";
         private const string SIBLING_SUB_DIR2 = "\\ASiblingDir2";
 
-        private readonly static string DirWithASubDirMp4Files = Directory.GetCurrentDirectory() + "\\dirWithASubDirMp4Files";
-        private readonly static string DirWithTwoSubDirsMp4Files = Directory.GetCurrentDirectory() + "\\dirWithTwoSubDirsMp4Files";
+        private readonly static string DirWithASubDirMp4Files = CurrentDirectory + "\\dirWithASubDirMp4Files";
+        private readonly static string DirWithTwoSubDirsMp4Files = CurrentDirectory + "\\dirWithTwoSubDirsMp4Files";
         private readonly static string DirWithTwoSubDirsMp4FilesSub1 = DirWithTwoSubDirsMp4Files + "\\dirWithTwoSubDirsMp4FilesSub1";
         private readonly static string DirWithTwoSubDirsMp4FilesSub2 = DirWithTwoSubDirsMp4Files + "\\dirWithTwoSubDirsMp4FilesSub2";
 
