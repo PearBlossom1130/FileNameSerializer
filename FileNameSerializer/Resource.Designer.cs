@@ -79,6 +79,15 @@ namespace FileNameSerializer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no files for specified extension..
+        /// </summary>
+        internal static string NotFound {
+            get {
+                return ResourceManager.GetString("NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FileNameSerializer is starting....
         /// </summary>
         internal static string Start {

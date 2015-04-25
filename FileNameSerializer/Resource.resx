@@ -123,6 +123,9 @@
   <data name="InputArgIsZero" xml:space="preserve">
     <value>Argument is empty. </value>
   </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>There is no files for specified extension.</value>
+  </data>
   <data name="Start" xml:space="preserve">
     <value>FileNameSerializer is starting...</value>
   </data>

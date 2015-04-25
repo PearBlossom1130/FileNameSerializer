@@ -8,6 +8,7 @@ namespace FileNameSerializer
     class Program
     {
         private const string LOGGER_NAME = "Main";
+        private static CommandLineOption _options = new CommandLineOption();
 
         static void Main(string[] args)
         {
@@ -18,14 +19,21 @@ namespace FileNameSerializer
             Logger.GetLogger(LOGGER_NAME).Info(rm.GetString("Start"));
             EnvironmentWorker.GetFileExtension("FileExtension");
             EnvironmentWorker.GetFileNameTemplate("FileNameTemplate");
-            var subDirectories = EnvironmentWorker.GetAllSubDirectories(args[0]);
-            if (subDirectories == null) return;
+            var subDirectories = EnvironmentWorker.GetAllSubDirectories(_options.TargetFolder);
+            
+            if (subDirectories == null)
+            {
+                Logger.GetLogger(LOGGER_NAME).Info(rm.GetString("NotFound"));
+                return;
+            }
+            else
+            {
+                EnvironmentWorker.EnqueueDirectories();
 
-            EnvironmentWorker.EnqueueDirectories();
+                var fileNameSerializer = new FileNameSerializer();
 
-            var fileNameSerializer = new FileNameSerializer();
-
-            fileNameSerializer.ChangeFileName();
+                fileNameSerializer.ChangeFileName();
+            }
 
             Logger.GetLogger(LOGGER_NAME).Info(rm.GetString("End"));
         }
@@ -37,8 +45,7 @@ namespace FileNameSerializer
 
         private static void InitCommandLine(string[] args)
         {
-            var options = new CommandLineOption();
-            CommandLine.Parser.Default.ParseArgumentsStrict(args, options, OnFail);
+            CommandLine.Parser.Default.ParseArgumentsStrict(args, _options, OnFail);
         }
 
         private static void OnFail()

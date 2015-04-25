@@ -12,6 +12,7 @@ namespace FileNameSerializer
     {
         private const string LOGGER_NAME = "EnvironmentWorker";
         private static string[] subDirectories;
+        private readonly static string CurrentDirectory = Directory.GetCurrentDirectory();
 
         public static string FormattedExtension { get; private set; }
         public static string FileExtension { get; private set; }
@@ -23,21 +24,27 @@ namespace FileNameSerializer
         {
             Logger.GetLogger(LOGGER_NAME).Info("GetAllSubDirectories is called.");
 
-            if (Directory.Exists(rootDir) == false)
+            string fullPath = rootDir;
+            if (!IsAbsolutePath(rootDir))
             {
-                Logger.GetLogger(LOGGER_NAME).ErrorFormat("The input directory {0} does not exist.", rootDir);
+                fullPath = CurrentDirectory + "\\" + rootDir;
+            }
+
+            if (Directory.Exists(fullPath) == false)
+            {
+                Logger.GetLogger(LOGGER_NAME).ErrorFormat("The input directory {0} does not exist.", fullPath);
                 return null;
             }
 
             try
             {
-                var targetFiles = Directory.GetFiles(rootDir, FormattedExtension, SearchOption.TopDirectoryOnly);
+                var targetFiles = Directory.GetFiles(fullPath, FormattedExtension, SearchOption.TopDirectoryOnly);
                 if (targetFiles.Length != 0)
                 {
-                    TargetDirectories.Enqueue(rootDir);
+                    TargetDirectories.Enqueue(fullPath);
                 }
 
-                subDirectories = Directory.GetDirectories(@rootDir, "*.*", SearchOption.AllDirectories);
+                subDirectories = Directory.GetDirectories(@fullPath, "*.*", SearchOption.AllDirectories);
                 return subDirectories.ToList();
             }
             catch (Exception ex)
@@ -79,13 +86,9 @@ namespace FileNameSerializer
             FileNameTemplate = appSettings[keyName];
         }
 
-        public static void ShowUsage()
+        private static bool IsAbsolutePath(string rootDir)
         {
-            Console.WriteLine("\t-----------------------------------------");
-            Console.WriteLine("\t Usage: ");
-            Console.WriteLine("\t     FileNameSerializer.exe -d:[targetDirectory]");
-            Console.WriteLine("\t     ex) FileNameSerializer.exe -d:c:\\temp");
-            Console.WriteLine("\t-----------------------------------------");
+            return rootDir.Contains(':');
         }
     }
 }
