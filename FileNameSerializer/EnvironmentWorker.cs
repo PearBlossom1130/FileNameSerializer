@@ -3,28 +3,30 @@ using System.Collections.Generic;
 using System.IO;
 using System.Configuration;
 using System.Collections.Concurrent;
+using System.Linq;
+using FileNameSerializer.Common;
+using System.Reflection;
+using System.Resources;
 
 namespace FileNameSerializer
 {
-    using System.Linq;
-
     public static class EnvironmentWorker
     {
         private const string LOGGER_NAME = "EnvironmentWorker";
         private static string[] subDirectories;
         private readonly static string CurrentDirectory = Directory.GetCurrentDirectory();
+        private static readonly ResourceManager Rm = new ResourceManager("FileNameSerializer.Resource", Assembly.GetExecutingAssembly());
 
         public static string FormattedExtension { get; private set; }
         public static string FileExtension { get; private set; }
         public static string FileNameTemplate { get; private set; }
-
         public static ConcurrentQueue<string> TargetDirectories = new ConcurrentQueue<string>();
 
         public static IList<string> GetAllSubDirectories(string rootDir)
         {
             Logger.GetLogger(LOGGER_NAME).Info("GetAllSubDirectories is called.");
 
-            string fullPath = rootDir;
+            var fullPath = rootDir;
             if (!IsAbsolutePath(rootDir))
             {
                 fullPath = CurrentDirectory + "\\" + rootDir;
@@ -32,7 +34,9 @@ namespace FileNameSerializer
 
             if (Directory.Exists(fullPath) == false)
             {
-                Logger.GetLogger(LOGGER_NAME).ErrorFormat("The input directory {0} does not exist.", fullPath);
+                var msg = Rm.GetString("DirNotExist") ?? "{0}";
+                Logger.GetLogger(LOGGER_NAME).ErrorFormat(msg, fullPath);
+                Console.WriteLine(string.Format(msg, fullPath));
                 return null;
             }
 

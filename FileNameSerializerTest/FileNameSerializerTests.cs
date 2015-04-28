@@ -36,7 +36,7 @@ namespace FileNameSerializerTest
             EnvironmentWorker.GetAllSubDirectories(DirWithASubDirMp4Files);
             EnvironmentWorker.EnqueueDirectories();
 
-            string directory = null;
+            string directory;
             EnvironmentWorker.TargetDirectories.TryPeek(out directory);
 
             var fns = new FileNameSerializer();

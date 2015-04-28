@@ -23,7 +23,7 @@ namespace FileNameSerializer
             
             if (subDirectories == null)
             {
-                Logger.GetLogger(LOGGER_NAME).Info(rm.GetString("NotFound"));
+                Logger.GetLogger(LOGGER_NAME).Info(rm.GetString("End"));
                 return;
             }
             else
