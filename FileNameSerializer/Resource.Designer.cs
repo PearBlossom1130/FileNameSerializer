@@ -61,6 +61,15 @@ namespace FileNameSerializer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The input directory {0} does not exist..
+        /// </summary>
+        internal static string DirNotExist {
+            get {
+                return ResourceManager.GetString("DirNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FileNameSerializer is ending....
         /// </summary>
         internal static string End {
@@ -79,7 +88,7 @@ namespace FileNameSerializer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no files for specified extension..
+        ///   Looks up a localized string similar to There is no files for the specified extension or no folder..
         /// </summary>
         internal static string NotFound {
             get {
