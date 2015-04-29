@@ -17,9 +17,9 @@ namespace FileNameSerializer
         private readonly static string CurrentDirectory = Directory.GetCurrentDirectory();
         private static readonly ResourceManager Rm = new ResourceManager("FileNameSerializer.Resource", Assembly.GetExecutingAssembly());
 
-        public static string FormattedExtension { get; private set; }
-        public static string FileExtension { get; private set; }
-        public static string FileNameTemplate { get; private set; }
+        public static string FormattedExtension { get; set; }
+        public static string FileExtension { get; set; }
+        public static string FileNameTemplate { get; set; }
         public static ConcurrentQueue<string> TargetDirectories = new ConcurrentQueue<string>();
 
         public static IList<string> GetAllSubDirectories(string rootDir)
