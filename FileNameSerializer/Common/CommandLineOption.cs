@@ -5,7 +5,7 @@ namespace FileNameSerializer.Common
 {
     public class CommandLineOption
     {
-        [Option('d', "directory", Required = true)]
+        [Option('d', "directory", Required = true, HelpText="Please specify a directory. Ex) -d temp")]
         public string TargetFolder { get; set; }
 
         [Option('e', "extension", HelpText="Please specify a file extension. Ex) -e mp4")]
