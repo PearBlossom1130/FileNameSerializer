@@ -4,20 +4,24 @@ using FileNameSerializer;
 
 namespace FileNameSerializerTest
 {
+    using System;
+    using System.Diagnostics;
+
     [TestClass]
     public class EnvironmentWorkerTests
     {
-        private readonly static string DirWithNoSubDir = Directory.GetCurrentDirectory() + "\\dirWithNoSubDir";
-        private readonly static string DirWithASubDirRoot = Directory.GetCurrentDirectory() + "\\dirWithASubDir";
-        private const string aSubDir = "\\ASubDir";
-        private readonly static string DirWithTwoSiblingSubDirRoot = Directory.GetCurrentDirectory() + "\\dirWithTwoSiblingSubDirRoot";
-        private const string aSiblingSubDir1 = "\\ASiblingDir1";
-        private const string aSiblingSubDir2 = "\\ASiblingDir2";
+        private readonly static string CurrentDirectory = Directory.GetCurrentDirectory();
+        private readonly static string DirWithNoSubDir = CurrentDirectory + "\\dirWithNoSubDir";
+        private readonly static string DirWithASubDirRoot = CurrentDirectory + "\\dirWithASubDir";
+        private const string SUB_DIR = "\\ASubDir";
+        private readonly static string DirWithTwoSiblingSubDirRoot = CurrentDirectory + "\\dirWithTwoSiblingSubDirRoot";
+        private const string SIBLING_SUB_DIR1 = "\\ASiblingDir1";
+        private const string SIBLING_SUB_DIR2 = "\\ASiblingDir2";
 
-        private readonly static string DirWithASubDirMp4Files = Directory.GetCurrentDirectory() + "\\dirWithASubDirMp4Files";
-        private readonly static string DirWithTwoSubDirsMp4FilesRoot = Directory.GetCurrentDirectory() + "\\dirWithTwoSubDirsMp4FilesRoot";
-        private readonly static string DirWithTwoSubDirsMp4FilesSub1 = DirWithTwoSubDirsMp4FilesRoot + "\\dirWithTwoSubDirsMp4FilesSub1";
-        private readonly static string DirWithTwoSubDirsMp4FilesSub2 = DirWithTwoSubDirsMp4FilesRoot + "\\dirWithTwoSubDirsMp4FilesSub2";
+        private readonly static string DirWithASubDirMp4Files = CurrentDirectory + "\\dirWithASubDirMp4Files";
+        private readonly static string DirWithTwoSubDirsMp4Files = CurrentDirectory + "\\dirWithTwoSubDirsMp4Files";
+        private readonly static string DirWithTwoSubDirsMp4FilesSub1 = DirWithTwoSubDirsMp4Files + "\\dirWithTwoSubDirsMp4FilesSub1";
+        private readonly static string DirWithTwoSubDirsMp4FilesSub2 = DirWithTwoSubDirsMp4Files + "\\dirWithTwoSubDirsMp4FilesSub2";
 
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
@@ -26,8 +30,10 @@ namespace FileNameSerializerTest
             if (parentDir != null)
             {
                 var testFilePath = parentDir.FullName+"\\TestFiles\\";
+                ModifyCreationTime();
+
                 Directory.CreateDirectory(DirWithASubDirMp4Files);
-                Directory.CreateDirectory(DirWithTwoSubDirsMp4FilesRoot);
+                Directory.CreateDirectory(DirWithTwoSubDirsMp4Files);
                 Directory.CreateDirectory(DirWithTwoSubDirsMp4FilesSub1);
                 Directory.CreateDirectory(DirWithTwoSubDirsMp4FilesSub2);
 
@@ -40,37 +46,41 @@ namespace FileNameSerializerTest
                 var destinationFile3 = string.Format("{0}\\test-89.mp4", DirWithASubDirMp4Files);
 
 
-                var destinationFileTwoSub1_1 = string.Format("{0}\\dummy100.mp4", DirWithTwoSubDirsMp4FilesSub1);
-                var destinationFileTwoSub1_2 = string.Format("{0}\\sample1.mp4", DirWithTwoSubDirsMp4FilesSub1);
-                var destinationFileTwoSub1_3 = string.Format("{0}\\test-89.mp4", DirWithTwoSubDirsMp4FilesSub1);
+                var destinationFileTwoSub11 = string.Format("{0}\\dummy100.mp4", DirWithTwoSubDirsMp4FilesSub1);
+                var destinationFileTwoSub12 = string.Format("{0}\\sample1.mp4", DirWithTwoSubDirsMp4FilesSub1);
+                var destinationFileTwoSub13 = string.Format("{0}\\test-89.mp4", DirWithTwoSubDirsMp4FilesSub1);
 
-                var destinationFileTwoSub2_1 = string.Format("{0}\\dummy100.mp4", DirWithTwoSubDirsMp4FilesSub2);
-                var destinationFileTwoSub2_2 = string.Format("{0}\\sample1.mp4", DirWithTwoSubDirsMp4FilesSub2);
-                var destinationFileTwoSub2_3 = string.Format("{0}\\test-89.mp4", DirWithTwoSubDirsMp4FilesSub2);
-
-                //File.Copy(sourceFile1, destinationFile1);
-                //File.Copy(sourceFile2, destinationFile2);
-                //File.Copy(sourceFile3, destinationFile3);
-
-                //File.Copy(sourceFile1, destinationFileTwoSub1_1);
-                //File.Copy(sourceFile2, destinationFileTwoSub1_2);
-                //File.Copy(sourceFile3, destinationFileTwoSub1_3);
-
-                //File.Copy(sourceFile1, destinationFileTwoSub2_1);
-                //File.Copy(sourceFile2, destinationFileTwoSub2_2);
-                //File.Copy(sourceFile3, destinationFileTwoSub2_3);
+                var destinationFileTwoSub21 = string.Format("{0}\\dummy100.mp4", DirWithTwoSubDirsMp4FilesSub2);
+                var destinationFileTwoSub22 = string.Format("{0}\\sample1.mp4", DirWithTwoSubDirsMp4FilesSub2);
+                var destinationFileTwoSub23 = string.Format("{0}\\test-89.mp4", DirWithTwoSubDirsMp4FilesSub2);
 
                 CopyFileWithTimeStampKept(sourceFile1, destinationFile1);
                 CopyFileWithTimeStampKept(sourceFile2, destinationFile2);
                 CopyFileWithTimeStampKept(sourceFile3, destinationFile3);
 
-                CopyFileWithTimeStampKept(sourceFile1, destinationFileTwoSub1_1);
-                CopyFileWithTimeStampKept(sourceFile2, destinationFileTwoSub1_2);
-                CopyFileWithTimeStampKept(sourceFile3, destinationFileTwoSub1_3);
-                CopyFileWithTimeStampKept(sourceFile1, destinationFileTwoSub2_1);
-                CopyFileWithTimeStampKept(sourceFile2, destinationFileTwoSub2_2);
-                CopyFileWithTimeStampKept(sourceFile3, destinationFileTwoSub2_3);
+                CopyFileWithTimeStampKept(sourceFile1, destinationFileTwoSub11);
+                CopyFileWithTimeStampKept(sourceFile2, destinationFileTwoSub12);
+                CopyFileWithTimeStampKept(sourceFile3, destinationFileTwoSub13);
+                CopyFileWithTimeStampKept(sourceFile1, destinationFileTwoSub21);
+                CopyFileWithTimeStampKept(sourceFile2, destinationFileTwoSub22);
+                CopyFileWithTimeStampKept(sourceFile3, destinationFileTwoSub23);
+            }
+        }
 
+        private static void ModifyCreationTime()
+        {
+            var parentDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent;
+            if (parentDir != null)
+            {
+                var testFilePath = parentDir.FullName + "\\TestFiles\\";
+                
+                var firstFileTime = "4/23/2015 6:26:11.209 PM";
+                var secondFileTime = "4/23/2015 6:27:45.837 PM";
+                var thirdFileTime = "4/23/2015 6:28:32.526 PM";
+
+                File.SetCreationTimeUtc(testFilePath+"dummy100.mp4", DateTime.Parse(firstFileTime));
+                File.SetCreationTimeUtc(testFilePath+"sample1.mp4", DateTime.Parse(secondFileTime));
+                File.SetCreationTimeUtc(testFilePath+"test-89.mp4", DateTime.Parse(thirdFileTime));
             }
         }
 
@@ -91,7 +101,7 @@ namespace FileNameSerializerTest
         public static void AssemblyCleanup()
         {
             Directory.Delete(DirWithASubDirMp4Files, true);
-            Directory.Delete(DirWithTwoSubDirsMp4FilesRoot, true);
+            Directory.Delete(DirWithTwoSubDirsMp4Files, true);
         }
 
         [ClassInitialize]
@@ -101,23 +111,29 @@ namespace FileNameSerializerTest
            EnvironmentWorker.GetFileNameTemplate("FileNameTemplate");
 
            Directory.CreateDirectory(DirWithNoSubDir);
-           Directory.CreateDirectory(DirWithASubDirRoot+aSubDir);
-           Directory.CreateDirectory(DirWithTwoSiblingSubDirRoot + aSiblingSubDir1);
-           Directory.CreateDirectory(DirWithTwoSiblingSubDirRoot + aSiblingSubDir2);
+           Directory.CreateDirectory(DirWithASubDirRoot+SUB_DIR);
+           Directory.CreateDirectory(DirWithTwoSiblingSubDirRoot + SIBLING_SUB_DIR1);
+           Directory.CreateDirectory(DirWithTwoSiblingSubDirRoot + SIBLING_SUB_DIR2);
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-
             Directory.Delete(DirWithNoSubDir);
-            Directory.Delete(DirWithASubDirRoot + aSubDir);
+            Directory.Delete(DirWithASubDirRoot + SUB_DIR);
             Directory.Delete(DirWithASubDirRoot);
-            Directory.Delete(DirWithTwoSiblingSubDirRoot + aSiblingSubDir1);
-            Directory.Delete(DirWithTwoSiblingSubDirRoot + aSiblingSubDir2);
+            Directory.Delete(DirWithTwoSiblingSubDirRoot + SIBLING_SUB_DIR1);
+            Directory.Delete(DirWithTwoSiblingSubDirRoot + SIBLING_SUB_DIR2);
             Directory.Delete(DirWithTwoSiblingSubDirRoot);
         }
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            string item = null;
+            while (EnvironmentWorker.TargetDirectories.TryDequeue(out item)) { }
+        }
+        
         [TestMethod]
         public void ShouldReturnZeroSubDirectory()
         {
@@ -132,7 +148,7 @@ namespace FileNameSerializerTest
             var subDir = EnvironmentWorker.GetAllSubDirectories(DirWithASubDirRoot);
 
             Assert.AreEqual(1, subDir.Count);
-            Assert.AreEqual(DirWithASubDirRoot+aSubDir, subDir[0]);
+            Assert.AreEqual(DirWithASubDirRoot+SUB_DIR, subDir[0]);
         }
 
         [TestMethod]
@@ -141,8 +157,8 @@ namespace FileNameSerializerTest
             var subDirs = EnvironmentWorker.GetAllSubDirectories(DirWithTwoSiblingSubDirRoot);
 
             Assert.AreEqual(2, subDirs.Count);
-            Assert.AreEqual(DirWithTwoSiblingSubDirRoot + aSiblingSubDir1, subDirs[0]);
-            Assert.AreEqual(DirWithTwoSiblingSubDirRoot + aSiblingSubDir2, subDirs[1]);
+            Assert.AreEqual(DirWithTwoSiblingSubDirRoot + SIBLING_SUB_DIR1, subDirs[0]);
+            Assert.AreEqual(DirWithTwoSiblingSubDirRoot + SIBLING_SUB_DIR2, subDirs[1]);
         }
 
         [TestMethod]
@@ -163,8 +179,17 @@ namespace FileNameSerializerTest
         [TestMethod]
         public void ShouldSetFilenameToVideo()
         {
-         
             Assert.AreEqual("video", EnvironmentWorker.FileNameTemplate);
+        }
+
+        [TestMethod]
+        public void ShouldReturnTwoDirectoryContainingMp4FilesFromSubDirs()
+        {
+            EnvironmentWorker.GetAllSubDirectories(DirWithTwoSubDirsMp4Files);
+            EnvironmentWorker.EnqueueDirectories();
+            foreach (var d in EnvironmentWorker.TargetDirectories) Debug.WriteLine(d);
+
+            Assert.AreEqual(2, EnvironmentWorker.TargetDirectories.Count);
         }
 
         [TestMethod]
@@ -174,15 +199,6 @@ namespace FileNameSerializerTest
             EnvironmentWorker.EnqueueDirectories();
 
             Assert.AreEqual(1, EnvironmentWorker.TargetDirectories.Count);
-        }
-
-        [TestMethod]
-        public void ShouldReturnTwoDirectoryContainingMp4FilesFromSubDirs()
-        {
-            EnvironmentWorker.GetAllSubDirectories(DirWithTwoSubDirsMp4FilesRoot);
-            EnvironmentWorker.EnqueueDirectories();
-
-            Assert.AreEqual(2, EnvironmentWorker.TargetDirectories.Count);
         }
     }
 }

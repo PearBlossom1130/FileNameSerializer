@@ -2,7 +2,7 @@
 using log4net;
 using log4net.Config;
 
-namespace FileNameSerializer
+namespace FileNameSerializer.Common
 {
     public class Logger
     {

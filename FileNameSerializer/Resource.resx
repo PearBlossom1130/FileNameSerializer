@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DirNotExist" xml:space="preserve">
+    <value>The input directory {0} does not exist.</value>
+  </data>
   <data name="End" xml:space="preserve">
     <value>FileNameSerializer is ending...</value>
   </data>
   <data name="InputArgIsZero" xml:space="preserve">
     <value>Argument is empty. </value>
+  </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>There is no files for the specified extension or no folder.</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>FileNameSerializer is starting...</value>

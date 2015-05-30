@@ -3,41 +3,52 @@ using System.Collections.Generic;
 using System.IO;
 using System.Configuration;
 using System.Collections.Concurrent;
+using System.Linq;
+using FileNameSerializer.Common;
+using System.Reflection;
+using System.Resources;
 
 namespace FileNameSerializer
 {
-    using System.Linq;
-
     public static class EnvironmentWorker
     {
         private const string LOGGER_NAME = "EnvironmentWorker";
         private static string[] subDirectories;
+        private readonly static string CurrentDirectory = Directory.GetCurrentDirectory();
+        private static readonly ResourceManager Rm = new ResourceManager("FileNameSerializer.Resource", Assembly.GetExecutingAssembly());
 
-        public static string FormattedExtension { get; private set; }
-        public static string FileExtension { get; private set; }
-        public static string FileNameTemplate { get; private set; }
-
+        public static string FormattedExtension { get; set; }
+        public static string FileExtension { get; set; }
+        public static string FileNameTemplate { get; set; }
         public static ConcurrentQueue<string> TargetDirectories = new ConcurrentQueue<string>();
 
         public static IList<string> GetAllSubDirectories(string rootDir)
         {
             Logger.GetLogger(LOGGER_NAME).Info("GetAllSubDirectories is called.");
 
-            if (Directory.Exists(rootDir) == false)
+            var fullPath = rootDir;
+            if (!IsAbsolutePath(rootDir))
             {
-                Logger.GetLogger(LOGGER_NAME).ErrorFormat("The input directory {0} does not exist.", rootDir);
+                fullPath = CurrentDirectory + "\\" + rootDir;
+            }
+
+            if (Directory.Exists(fullPath) == false)
+            {
+                var msg = Rm.GetString("DirNotExist") ?? "{0}";
+                Logger.GetLogger(LOGGER_NAME).ErrorFormat(msg, fullPath);
+                Console.WriteLine(string.Format(msg, fullPath));
                 return null;
             }
 
             try
             {
-                var targetFiles = Directory.GetFiles(rootDir, FormattedExtension, SearchOption.TopDirectoryOnly);
+                var targetFiles = Directory.GetFiles(fullPath, FormattedExtension, SearchOption.TopDirectoryOnly);
                 if (targetFiles.Length != 0)
                 {
-                    TargetDirectories.Enqueue(rootDir);
+                    TargetDirectories.Enqueue(fullPath);
                 }
 
-                subDirectories = Directory.GetDirectories(@rootDir, "*.*", SearchOption.AllDirectories);
+                subDirectories = Directory.GetDirectories(@fullPath, "*.*", SearchOption.AllDirectories);
                 return subDirectories.ToList();
             }
             catch (Exception ex)
@@ -79,13 +90,9 @@ namespace FileNameSerializer
             FileNameTemplate = appSettings[keyName];
         }
 
-        public static void ShowUsage()
+        private static bool IsAbsolutePath(string rootDir)
         {
-            Console.WriteLine("\t-----------------------------------------");
-            Console.WriteLine("\t Usage: ");
-            Console.WriteLine("\t     FileNameSerializer.exe -d:[targetDirectory]");
-            Console.WriteLine("\t     ex) FileNameSerializer.exe -d:c:\\temp");
-            Console.WriteLine("\t-----------------------------------------");
+            return rootDir.Contains(':');
         }
     }
 }
